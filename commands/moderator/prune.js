@@ -4,6 +4,7 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('prune')
         .setDescription('Prine and keep Pinned messages')
+        .setDefaultMemberPermissions(PermissionsBitField.Flags.ManageMessages)
         .addIntegerOption(option =>
             option.setName('amount')
                 .setDescription('Amount')
@@ -11,10 +12,6 @@ module.exports = {
                 .setMaxValue(100)
                 .setRequired(true)),
     async execute(interaction) {
-        if (!interaction.member.permissions.has(PermissionsBitField.Flags.ManageMessages)) {
-            return interaction.reply({ content: '"Unauthorized"', ephemeral: true });
-        }
-
         const amount = interaction.options.getInteger('amount');
 
         if (amount <= 0 || amount > 100) {
